@@ -42,7 +42,7 @@ public class ApiController {
         // Handle the POST request and return a response
         return ResponseEntity.ok("Received (POST): " + requestBody.getdbToken());
     }
-    @GetMapping("/message")
+    @GetMapping("/")
 	public ResponseEntity<String> message(){
 		return ResponseEntity.ok("Congrats ! your application deployed successfully in Azure Platform. !");
 	}
