@@ -1,29 +1,22 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.http.MediaType;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import java.util.*;
+import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ApiController {
 
-    
+    private static final Logger LOGGER = Logger.getLogger(ApiController.class.getName());
     @PostMapping(value = "/api",
                     headers = {"content-type=application/json" }, 
                     consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -44,6 +37,7 @@ public class ApiController {
     }
     @GetMapping("/")
 	public ResponseEntity<String> message(){
+        LOGGER.info("Enter Logger");
 		return ResponseEntity.ok("Congrats ! your application deployed successfully in Azure Platform. !");
 	}
 
