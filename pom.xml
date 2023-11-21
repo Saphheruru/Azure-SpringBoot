@@ -39,6 +39,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>applicationinsights-core</artifactId>
+			<version>3.4.18</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -5,6 +5,9 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class ApiController {
@@ -40,6 +44,37 @@ public class ApiController {
         LOGGER.info("Enter Logger");
 		return ResponseEntity.ok("Congrats ! your application deployed successfully in Azure Platform. !");
 	}
+
+    @PostMapping("/test1")
+	public ResponseEntity<String> curlPost(){
+        
+        // Create an instance of RestTemplate
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Create a request entity with an empty body and no headers
+        HttpEntity<?> requestEntity = new HttpEntity<>(null);
+
+        String apiUrl = "https://httpbin.org/post";
+        // Make a POST request to the API endpoint
+        ResponseEntity<String> response;
+        try {
+            response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                System.out.println("POST request successful! Status Code: " + response.getStatusCode());
+                return response;
+            } else {
+                System.out.println("Failed to make POST request. Status Code: " + response.getStatusCode());
+                return response;
+            }
+        } catch (Exception e) {
+            System.out.println("Exception occurred: " + e.getMessage());
+            // Handle exceptions such as connection errors, timeouts, etc.
+            
+        }
+        return ResponseEntity.ok("test");
+    }
+	
 
 
 
