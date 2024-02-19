@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.azure.identity.ClientSecretCredentialBuilder;
+import com.azure.security.keyvault.secrets.SecretClient;
+import com.azure.security.keyvault.secrets.SecretClientBuilder;
+import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 @RestController
 public class ApiController {
 
@@ -135,6 +139,33 @@ public class ApiController {
         return processedColumns.toString();
     }
 
+    // @GetMapping("/key")
+	// public ResponseEntity<String> getItem(){
+    //     String mySecret = getStoredValue("api-key")
+	// 	return ResponseEntity.ok("Congrats : " + getStoredValue(mySecret);
+	// }
+    @GetMapping("/key")
+    private ResponseEntity<String>  getStoredValue(){
+        try{
+            //String keyVaultName = System.getenv("KEY_VAULT_NAME");
+            String keyVaultUri = "https://api-key-storage.vault.azure.net/";
+            SecretClient secretClient = new SecretClientBuilder()
+            .vaultUrl(keyVaultUri)
+            .credential(new ClientSecretCredentialBuilder().tenantId("d71e293e-edaf-4fc4-aa65-315211b5959d")
+                                                        .clientId("09b338129c7ecef95-7381-48a3-8661-c6437b0d994b")
+                                                        .clientSecret("C108Q~mkSBhHtqB1duw.qtDvhG7shKOUdO3nKck2")
+                                                        .build())
+            .buildClient();
+            KeyVaultSecret storedSecret = secretClient.getSecret("api-key");
+
+            return ResponseEntity.ok("Congrats : " + storedSecret.getValue());
+
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Error: "+e.getMessage());
+        }
+
+    }
     //Enum to call specific function to process
     private enum ProcessFunction {
         DETOKENIZE_L {
